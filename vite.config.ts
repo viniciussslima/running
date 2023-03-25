@@ -1,13 +1,15 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import dns from "dns";
+import dns from 'dns';
+import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
-dns.setDefaultResultOrder("verbatim");
+import react from '@vitejs/plugin-react';
+
+dns.setDefaultResultOrder('verbatim');
 
 export default defineConfig({
   server: {
-    host: "localhost",
+    host: 'localhost',
     port: 3000,
   },
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
 });

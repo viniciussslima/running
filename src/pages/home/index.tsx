@@ -11,7 +11,7 @@ import {
 import { useQuery } from 'react-query';
 
 import { useToast } from '@contexts/Toast';
-import { useEvents } from '@hooks';
+import { useDebounce, useEvents } from '@hooks';
 
 import { ButtonsPage } from '@components/ButtonsPage';
 
@@ -21,22 +21,27 @@ import {
   CardHeader,
   CardSubtitle,
   CardTitle,
+  FilterContainer,
   InfoContainer,
   Label,
   LeftSide,
   RightSide,
+  Search,
+  Select,
   Title,
 } from './styles';
 
 const Home = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [queryParams, setQueryParams] = useState<EventsQuery>({
+    page: 1,
+  });
 
   const { listEvents } = useEvents();
   const { addToast } = useToast();
 
   const { data: events, isLoading } = useQuery(
-    ['events', { page: currentPage }],
-    () => listEvents(currentPage),
+    ['events', queryParams],
+    () => listEvents(queryParams),
     {
       onError: () => {
         addToast('Não foi possível carregar a lista de eventos', 'error');
@@ -48,14 +53,72 @@ const Home = () => {
     return Math.ceil((events?.count ?? 0) / 10);
   }, [events]);
 
+  const years = useMemo(() => {
+    const newYears = [];
+
+    for (let i = 2021; i <= moment().year(); i++) {
+      newYears.push(i);
+    }
+
+    return newYears;
+  }, []);
+
+  const debouncedSearch = useDebounce((search: string) => {
+    setQueryParams({
+      ...queryParams,
+      search,
+      page: 1,
+    });
+  }, 1000);
+
   return (
     <>
+      <Title>Eventos</Title>
       {isLoading && (
         <div>
           <h1>Carregando...</h1>
         </div>
       )}
-      <Title>Eventos</Title>
+      <FilterContainer>
+        <Search
+          placeholder="Pesquise por nome do evento"
+          onChange={(event) => debouncedSearch(event.target.value)}
+        />
+        <Select
+          onChange={(event) =>
+            setQueryParams({
+              ...queryParams,
+              distance: event.target.value.length
+                ? Number(event.target.value)
+                : undefined,
+              page: 1,
+            })
+          }
+        >
+          <option value="">Filtro por distância</option>
+          <option value="5">5 km</option>
+          <option value="10">10 km</option>
+          <option value="21">21 km</option>
+        </Select>
+        <Select
+          onChange={(event) =>
+            setQueryParams({
+              ...queryParams,
+              year: event.target.value.length
+                ? Number(event.target.value)
+                : undefined,
+              page: 1,
+            })
+          }
+        >
+          <option value="">Filtro por ano</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </Select>
+      </FilterContainer>
       {events?.results.map((event) => (
         <Card key={event.id}>
           <CardHeader>
@@ -102,8 +165,10 @@ const Home = () => {
       {pages > 1 && (
         <ButtonsPage
           pages={10}
-          changePage={(newPage) => setCurrentPage(newPage)}
-          currentPage={currentPage}
+          changePage={(newPage) =>
+            setQueryParams({ ...queryParams, page: newPage })
+          }
+          currentPage={queryParams.page}
         />
       )}
     </>

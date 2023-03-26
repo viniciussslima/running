@@ -7,6 +7,41 @@ export const Title = styled.p`
   margin: 0px 0px 12px 0px;
 `;
 
+export const FilterContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
+
+export const Search = styled.input`
+  height: 40px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 1px 4px;
+
+  &:focus {
+    border: 2px solid ${(props) => props.theme.colors.primary};
+  }
+`;
+
+export const Select = styled.select`
+  background: ${(props) => props.theme.colors.white.one};
+  height: 45px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 1px 4px;
+
+  &:focus {
+    border: 2px solid ${(props) => props.theme.colors.primary};
+  }
+`;
+
 export const Card = styled.div`
   color: ${({ theme }) => theme.colors.white.one};
   background-color: ${({ theme }) => theme.colors.primary};
@@ -38,7 +73,7 @@ export const CardBody = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 465px) {
+  @media (max-width: 476px) {
     flex-direction: column-reverse;
     gap: 10px;
   }
@@ -69,7 +104,7 @@ export const RightSide = styled.div`
   font-size: ${({ theme }) => theme.fontSize.big};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 
-  @media (max-width: 465px) {
+  @media (max-width: 476px) {
     align-items: flex-start;
     gap: 10px;
     font-size: ${({ theme }) => theme.fontSize.medium};

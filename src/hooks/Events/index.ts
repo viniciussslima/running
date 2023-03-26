@@ -6,13 +6,11 @@ const useEvents = () => {
   const { request } = useApi();
 
   const listEvents = useCallback(
-    async (page: number) => {
+    async (params: EventsQuery) => {
       const response = await request<IPaginated<Event>>({
         method: 'get',
         url: endpoints.events.list,
-        params: {
-          page,
-        },
+        params,
       });
 
       return response.data;

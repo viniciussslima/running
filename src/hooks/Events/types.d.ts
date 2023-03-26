@@ -11,3 +11,10 @@ interface Event {
   certificate?: string;
   photos?: Array<string>;
 }
+
+interface EventsQuery {
+  page: number;
+  search?: string;
+  distance?: number;
+  year?: number;
+}

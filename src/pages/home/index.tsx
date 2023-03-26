@@ -8,8 +8,10 @@ import {
   MdRoute,
   MdTimer,
 } from 'react-icons/md';
+import { useQuery } from 'react-query';
 
-import events from '@data/events.json';
+import { useToast } from '@contexts/Toast';
+import { useEvents } from '@hooks';
 
 import {
   Card,
@@ -25,10 +27,24 @@ import {
 } from './styles';
 
 const Home = () => {
+  const { listEvents } = useEvents();
+  const { addToast } = useToast();
+
+  const { data: events, isLoading } = useQuery(['events'], () => listEvents(), {
+    onError: () => {
+      addToast('Não foi possível carregar a lista de eventos', 'error');
+    },
+  });
+
   return (
     <>
+      {isLoading && (
+        <div>
+          <h1>Carregando...</h1>
+        </div>
+      )}
       <Title>Eventos</Title>
-      {events.map((event) => (
+      {events?.results.map((event) => (
         <Card key={event.id}>
           <CardHeader>
             <CardTitle>{event.name}</CardTitle>
@@ -51,7 +67,7 @@ const Home = () => {
               <InfoContainer>
                 <MdMan3 />
                 <Label>Faixa etária: </Label>
-                <span>{event.age_range}</span>
+                <span>{event.age_category}</span>
               </InfoContainer>
             </LeftSide>
             <RightSide>
@@ -61,7 +77,7 @@ const Home = () => {
               </InfoContainer>
               <InfoContainer>
                 <MdEmojiEvents />
-                <span>{event.general_position}º no geral</span>
+                <span>{event.overall_position}º no geral</span>
               </InfoContainer>
               <InfoContainer>
                 <MdEmojiEvents />

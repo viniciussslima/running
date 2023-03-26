@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 import moment from 'moment';
 import {
@@ -12,6 +12,8 @@ import { useQuery } from 'react-query';
 
 import { useToast } from '@contexts/Toast';
 import { useEvents } from '@hooks';
+
+import { ButtonsPage } from '@components/ButtonsPage';
 
 import {
   Card,
@@ -27,14 +29,24 @@ import {
 } from './styles';
 
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { listEvents } = useEvents();
   const { addToast } = useToast();
 
-  const { data: events, isLoading } = useQuery(['events'], () => listEvents(), {
-    onError: () => {
-      addToast('Não foi possível carregar a lista de eventos', 'error');
-    },
-  });
+  const { data: events, isLoading } = useQuery(
+    ['events', { page: currentPage }],
+    () => listEvents(currentPage),
+    {
+      onError: () => {
+        addToast('Não foi possível carregar a lista de eventos', 'error');
+      },
+    }
+  );
+
+  const pages = useMemo(() => {
+    return Math.ceil((events?.count ?? 0) / 10);
+  }, [events]);
 
   return (
     <>
@@ -87,6 +99,13 @@ const Home = () => {
           </CardBody>
         </Card>
       ))}
+      {pages > 1 && (
+        <ButtonsPage
+          pages={10}
+          changePage={(newPage) => setCurrentPage(newPage)}
+          currentPage={currentPage}
+        />
+      )}
     </>
   );
 };

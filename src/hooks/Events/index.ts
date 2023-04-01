@@ -34,9 +34,22 @@ const useEvents = () => {
     [request]
   );
 
+  const getEvent = useCallback(
+    async (id: number) => {
+      const response = await request<Event>({
+        method: 'get',
+        url: endpoints.events.get.replace(':id', id.toString()),
+      });
+
+      return response.data;
+    },
+    [request]
+  );
+
   return {
     listPaginatedEvents,
     listEvents,
+    getEvent,
   };
 };
 

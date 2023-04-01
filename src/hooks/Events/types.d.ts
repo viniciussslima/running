@@ -9,7 +9,10 @@ interface Event {
   age_position: number;
   age_category: string;
   certificate?: string;
-  photos?: Array<string>;
+  photos?: Array<{
+    id: number;
+    image: string;
+  }>;
 }
 
 interface EventsQuery {

@@ -10,6 +10,7 @@ import { ToastProvider } from '@contexts/Toast';
 
 import Base from '@components/Base';
 
+import Event from '@pages/Event';
 import Home from '@pages/Home';
 import Statics from '@pages/Statistcs';
 import { lightTheme } from '@themes/default';
@@ -33,6 +34,7 @@ const App = () => {
               <Base>
                 <Routes>
                   <Route path="eventos" element={<Home />} />
+                  <Route path="eventos/:id" element={<Event />} />
                   <Route path="estatiscas" element={<Statics />} />
                   <Route path="*" element={<Navigate to="eventos" replace />} />
                 </Routes>

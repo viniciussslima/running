@@ -1,35 +1,19 @@
 import React, { useMemo, useState } from 'react';
 
 import moment from 'moment';
-import {
-  MdEmojiEvents,
-  MdMan3,
-  MdOutlineDirectionsRun,
-  MdRoute,
-  MdTimer,
-} from 'react-icons/md';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { useToast } from '@contexts/Toast';
 import { useDebounce, useEvents } from '@hooks';
 
 import { ButtonsPage } from '@components/ButtonsPage';
+import Container from '@components/Container';
+import EmptyMessage from '@components/EmptyMessage';
+import EventCard from '@components/EventCard';
 import { Select } from '@components/Select';
 
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardSubtitle,
-  CardTitle,
-  Container,
-  FilterContainer,
-  InfoContainer,
-  Label,
-  LeftSide,
-  RightSide,
-  Search,
-} from './styles';
+import { FilterContainer, Search } from './styles';
 
 const Home = () => {
   const [queryParams, setQueryParams] = useState<EventsQuery>({
@@ -38,6 +22,7 @@ const Home = () => {
 
   const { listPaginatedEvents } = useEvents();
   const { addToast } = useToast();
+  const navigate = useNavigate();
 
   const { data: events, isLoading } = useQuery(
     ['events', queryParams],
@@ -118,48 +103,15 @@ const Home = () => {
           ))}
         </Select>
       </FilterContainer>
+      {events?.results.length === 0 && (
+        <EmptyMessage>Nenhum evento encontrado</EmptyMessage>
+      )}
       {events?.results.map((event) => (
-        <Card key={event.id}>
-          <CardHeader>
-            <CardTitle>{event.name}</CardTitle>
-            <CardSubtitle>
-              Data: {moment(event.date).format('DD/MM/YYYY')}
-            </CardSubtitle>
-          </CardHeader>
-          <CardBody>
-            <LeftSide>
-              <InfoContainer>
-                <MdRoute />
-                <Label>Distância: </Label>
-                <span>{event.distance} Km</span>
-              </InfoContainer>
-              <InfoContainer>
-                <MdTimer />
-                <Label>Tempo total: </Label>
-                <span>{event.time}</span>
-              </InfoContainer>
-              <InfoContainer>
-                <MdMan3 />
-                <Label>Faixa etária: </Label>
-                <span>{event.age_category}</span>
-              </InfoContainer>
-            </LeftSide>
-            <RightSide>
-              <InfoContainer>
-                <MdOutlineDirectionsRun />
-                <span>{event.pace}</span>
-              </InfoContainer>
-              <InfoContainer>
-                <MdEmojiEvents />
-                <span>{event.overall_position}º no geral</span>
-              </InfoContainer>
-              <InfoContainer>
-                <MdEmojiEvents />
-                <span>{event.age_position}º na faixa etária</span>
-              </InfoContainer>
-            </RightSide>
-          </CardBody>
-        </Card>
+        <EventCard
+          key={event.id}
+          event={event}
+          onClick={() => navigate(`/eventos/${event.id}`)}
+        />
       ))}
       {pages > 1 && (
         <ButtonsPage

@@ -17,13 +17,13 @@ const Base: React.FC<BaseProps> = ({ children }) => {
       <Header>
         <Route
           onClick={() => navigate('/eventos')}
-          selected={location.pathname === '/eventos'}
+          selected={location.pathname.includes('/eventos')}
         >
           Eventos
         </Route>
         <Route
           onClick={() => navigate('/estatiscas')}
-          selected={location.pathname === '/estatiscas'}
+          selected={location.pathname.includes('/estatiscas')}
         >
           Estatistas
         </Route>

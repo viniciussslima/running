@@ -8,6 +8,9 @@ import { ThemeProvider } from 'styled-components';
 import { ApiProvider } from '@contexts/Api';
 import { ToastProvider } from '@contexts/Toast';
 
+import Base from '@components/Base';
+
+import Statics from '@pages/Statistcs';
 import Home from '@pages/home';
 import { lightTheme } from '@themes/default';
 
@@ -27,10 +30,13 @@ const App = () => {
           <ReactQueryDevtools initialIsOpen={false} />
           <ApiProvider>
             <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
+              <Base>
+                <Routes>
+                  <Route path="eventos" element={<Home />} />
+                  <Route path="estatiscas" element={<Statics />} />
+                  <Route path="*" element={<Navigate to="eventos" replace />} />
+                </Routes>
+              </Base>
             </BrowserRouter>
           </ApiProvider>
         </QueryClientProvider>

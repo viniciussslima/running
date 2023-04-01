@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components';
 
 const lightTheme: DefaultTheme = {
   colors: {
-    primary: '#057AC8',
+    primary: '#3795BD',
     secondary: '#F1F2F5',
     info: '#2F80ED',
     success: '#27AE60',

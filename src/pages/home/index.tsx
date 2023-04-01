@@ -14,6 +14,7 @@ import { useToast } from '@contexts/Toast';
 import { useDebounce, useEvents } from '@hooks';
 
 import { ButtonsPage } from '@components/ButtonsPage';
+import { Select } from '@components/Select';
 
 import {
   Card,
@@ -21,14 +22,13 @@ import {
   CardHeader,
   CardSubtitle,
   CardTitle,
+  Container,
   FilterContainer,
   InfoContainer,
   Label,
   LeftSide,
   RightSide,
   Search,
-  Select,
-  Title,
 } from './styles';
 
 const Home = () => {
@@ -36,12 +36,12 @@ const Home = () => {
     page: 1,
   });
 
-  const { listEvents } = useEvents();
+  const { listPaginatedEvents } = useEvents();
   const { addToast } = useToast();
 
   const { data: events, isLoading } = useQuery(
     ['events', queryParams],
-    () => listEvents(queryParams),
+    () => listPaginatedEvents(queryParams),
     {
       onError: () => {
         addToast('Não foi possível carregar a lista de eventos', 'error');
@@ -72,8 +72,7 @@ const Home = () => {
   }, 1000);
 
   return (
-    <>
-      <Title>Eventos</Title>
+    <Container>
       {isLoading && (
         <div>
           <h1>Carregando...</h1>
@@ -171,7 +170,7 @@ const Home = () => {
           currentPage={queryParams.page}
         />
       )}
-    </>
+    </Container>
   );
 };
 

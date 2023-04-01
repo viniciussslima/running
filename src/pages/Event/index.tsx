@@ -9,6 +9,7 @@ import { useEvents } from '@hooks';
 import Container from '@components/Container';
 import EmptyMessage from '@components/EmptyMessage';
 import EventCard from '@components/EventCard';
+import Loading from '@components/Loading';
 
 import { Photo, PhotosContainer, Title } from './styles';
 
@@ -30,9 +31,7 @@ const Event = () => {
   return (
     <Container>
       {isLoading ? (
-        <div>
-          <h1>Carregando...</h1>
-        </div>
+        <Loading />
       ) : (
         <>
           <EventCard event={event!} />

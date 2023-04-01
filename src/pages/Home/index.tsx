@@ -11,6 +11,7 @@ import { ButtonsPage } from '@components/ButtonsPage';
 import Container from '@components/Container';
 import EmptyMessage from '@components/EmptyMessage';
 import EventCard from '@components/EventCard';
+import Loading from '@components/Loading';
 import { Select } from '@components/Select';
 
 import { FilterContainer, Search } from './styles';
@@ -58,69 +59,70 @@ const Home = () => {
 
   return (
     <Container>
-      {isLoading && (
-        <div>
-          <h1>Carregando...</h1>
-        </div>
-      )}
-      <FilterContainer>
-        <Search
-          placeholder="Pesquise por nome do evento"
-          onChange={(event) => debouncedSearch(event.target.value)}
-        />
-        <Select
-          onChange={(event) =>
-            setQueryParams({
-              ...queryParams,
-              distance: event.target.value.length
-                ? Number(event.target.value)
-                : undefined,
-              page: 1,
-            })
-          }
-        >
-          <option value="">Filtro por distância</option>
-          <option value="5">5 km</option>
-          <option value="10">10 km</option>
-          <option value="21">21 km</option>
-        </Select>
-        <Select
-          onChange={(event) =>
-            setQueryParams({
-              ...queryParams,
-              year: event.target.value.length
-                ? Number(event.target.value)
-                : undefined,
-              page: 1,
-            })
-          }
-        >
-          <option value="">Filtro por ano</option>
-          {years.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <FilterContainer>
+            <Search
+              placeholder="Pesquise por nome do evento"
+              onChange={(event) => debouncedSearch(event.target.value)}
+            />
+            <Select
+              onChange={(event) =>
+                setQueryParams({
+                  ...queryParams,
+                  distance: event.target.value.length
+                    ? Number(event.target.value)
+                    : undefined,
+                  page: 1,
+                })
+              }
+            >
+              <option value="">Filtro por distância</option>
+              <option value="5">5 km</option>
+              <option value="10">10 km</option>
+              <option value="21">21 km</option>
+            </Select>
+            <Select
+              onChange={(event) =>
+                setQueryParams({
+                  ...queryParams,
+                  year: event.target.value.length
+                    ? Number(event.target.value)
+                    : undefined,
+                  page: 1,
+                })
+              }
+            >
+              <option value="">Filtro por ano</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </Select>
+          </FilterContainer>
+          {events?.results.length === 0 && (
+            <EmptyMessage>Nenhum evento encontrado</EmptyMessage>
+          )}
+          {events?.results.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              onClick={() => navigate(`/eventos/${event.id}`)}
+            />
           ))}
-        </Select>
-      </FilterContainer>
-      {events?.results.length === 0 && (
-        <EmptyMessage>Nenhum evento encontrado</EmptyMessage>
-      )}
-      {events?.results.map((event) => (
-        <EventCard
-          key={event.id}
-          event={event}
-          onClick={() => navigate(`/eventos/${event.id}`)}
-        />
-      ))}
-      {pages > 1 && (
-        <ButtonsPage
-          pages={10}
-          changePage={(newPage) =>
-            setQueryParams({ ...queryParams, page: newPage })
-          }
-          currentPage={queryParams.page}
-        />
+          {pages > 1 && (
+            <ButtonsPage
+              pages={10}
+              changePage={(newPage) =>
+                setQueryParams({ ...queryParams, page: newPage })
+              }
+              currentPage={queryParams.page}
+            />
+          )}
+        </>
       )}
     </Container>
   );

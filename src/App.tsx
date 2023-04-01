@@ -10,8 +10,8 @@ import { ToastProvider } from '@contexts/Toast';
 
 import Base from '@components/Base';
 
+import Home from '@pages/Home';
 import Statics from '@pages/Statistcs';
-import Home from '@pages/home';
 import { lightTheme } from '@themes/default';
 
 const queryClient = new QueryClient({

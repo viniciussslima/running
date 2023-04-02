@@ -1,7 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import show from '@animations/show';
 
 export const Card = styled.div<{
   canClick: boolean;
+  position?: number;
 }>`
   color: ${({ theme }) => theme.colors.white.one};
   background-color: ${({ theme }) => theme.colors.primary};
@@ -12,6 +15,14 @@ export const Card = styled.div<{
   flex-direction: column;
   gap: 12px;
   cursor: ${({ canClick }) => (canClick ? 'pointer' : 'default')};
+  animation: ${({ position }) =>
+    position
+      ? css`
+          ${show} ${position * 0.5}s ease-in-out
+        `
+      : css`
+    none
+  `};
 `;
 
 export const CardHeader = styled.div`

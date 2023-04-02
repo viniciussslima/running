@@ -106,11 +106,12 @@ const Home = () => {
           {events?.results.length === 0 && (
             <EmptyMessage>Nenhum evento encontrado</EmptyMessage>
           )}
-          {events?.results.map((event) => (
+          {events?.results.map((event, index) => (
             <EventCard
               key={event.id}
               event={event}
               onClick={() => navigate(`/eventos/${event.id}`)}
+              position={index + 1}
             />
           ))}
           {pages > 1 && (

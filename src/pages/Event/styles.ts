@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import show from '@animations/show';
+
 export const Title = styled.p`
   color: ${({ theme }) => theme.colors.white.one};
   font-size: ${({ theme }) => theme.fontSize.big};
@@ -13,6 +15,7 @@ export const PhotosContainer = styled.div`
   gap: 16px;
   align-items: center;
   margin-bottom: 12px;
+  animation: ${show} 1s ease-in-out;
 `;
 
 export const Photo = styled.img`

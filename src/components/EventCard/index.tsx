@@ -26,11 +26,12 @@ import {
 interface EventCardProps {
   event: Event;
   onClick?: () => void;
+  position?: number;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, onClick }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, onClick, position }) => {
   return (
-    <Card canClick={!!onClick} onClick={onClick}>
+    <Card canClick={!!onClick} onClick={onClick} position={position}>
       <CardHeader>
         <CardTitle>{event.name}</CardTitle>
         <CardSubtitle>

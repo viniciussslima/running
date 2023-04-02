@@ -41,7 +41,7 @@ const Event = () => {
           )}
           <PhotosContainer>
             {event?.photos?.map((photo) => (
-              <Photo key={photo.id} src={photo.image} />
+              <Photo key={photo.id} src={photo.url} />
             ))}
           </PhotosContainer>
         </>

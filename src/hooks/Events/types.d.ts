@@ -1,3 +1,8 @@
+interface Asset {
+  id: number;
+  url: string;
+}
+
 interface Event {
   id: number;
   name: string;
@@ -8,11 +13,8 @@ interface Event {
   overall_position: number;
   age_position: number;
   age_category: string;
-  certificate?: string;
-  photos?: Array<{
-    id: number;
-    image: string;
-  }>;
+  certificate?: Asset;
+  photos?: Array<Asset>;
 }
 
 interface EventsQuery {

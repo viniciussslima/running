@@ -58,7 +58,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onClick }) => {
             <InfoContainer>
               <MdCardMembership />
               <Certificate
-                href={event.certificate}
+                href={event.certificate.url}
                 target="_blank"
                 rel="noreferrer"
               >

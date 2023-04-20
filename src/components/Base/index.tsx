@@ -22,10 +22,10 @@ const Base: React.FC<BaseProps> = ({ children }) => {
           Eventos
         </Route>
         <Route
-          onClick={() => navigate('/estatiscas')}
-          selected={location.pathname.includes('/estatiscas')}
+          onClick={() => navigate('/estatisticas')}
+          selected={location.pathname.includes('/estatisticas')}
         >
-          Estatistas
+          Estatísticas
         </Route>
       </Header>
       {children}

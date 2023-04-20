@@ -35,7 +35,7 @@ const App = () => {
                 <Routes>
                   <Route path="eventos" element={<Home />} />
                   <Route path="eventos/:id" element={<Event />} />
-                  <Route path="estatiscas" element={<Statics />} />
+                  <Route path="estatisticas" element={<Statics />} />
                   <Route path="*" element={<Navigate to="eventos" replace />} />
                 </Routes>
               </Base>

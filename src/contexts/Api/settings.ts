@@ -1,6 +1,6 @@
 export const endpoints = {
   events: {
     list: '/events/',
-    get: '/events/:id',
+    get: '/events/:id/',
   },
 };

@@ -59,50 +59,50 @@ const Home = () => {
 
   return (
     <Container>
+      <FilterContainer>
+        <Search
+          placeholder="Pesquise por nome do evento"
+          onChange={(event) => debouncedSearch(event.target.value)}
+        />
+        <Select
+          onChange={(event) =>
+            setQueryParams({
+              ...queryParams,
+              distance: event.target.value.length
+                ? Number(event.target.value)
+                : undefined,
+              page: 1,
+            })
+          }
+        >
+          <option value="">Filtro por distância</option>
+          <option value="5">5 km</option>
+          <option value="10">10 km</option>
+          <option value="21">21 km</option>
+        </Select>
+        <Select
+          onChange={(event) =>
+            setQueryParams({
+              ...queryParams,
+              year: event.target.value.length
+                ? Number(event.target.value)
+                : undefined,
+              page: 1,
+            })
+          }
+        >
+          <option value="">Filtro por ano</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+        </Select>
+      </FilterContainer>
       {isLoading ? (
         <Loading />
       ) : (
         <>
-          <FilterContainer>
-            <Search
-              placeholder="Pesquise por nome do evento"
-              onChange={(event) => debouncedSearch(event.target.value)}
-            />
-            <Select
-              onChange={(event) =>
-                setQueryParams({
-                  ...queryParams,
-                  distance: event.target.value.length
-                    ? Number(event.target.value)
-                    : undefined,
-                  page: 1,
-                })
-              }
-            >
-              <option value="">Filtro por distância</option>
-              <option value="5">5 km</option>
-              <option value="10">10 km</option>
-              <option value="21">21 km</option>
-            </Select>
-            <Select
-              onChange={(event) =>
-                setQueryParams({
-                  ...queryParams,
-                  year: event.target.value.length
-                    ? Number(event.target.value)
-                    : undefined,
-                  page: 1,
-                })
-              }
-            >
-              <option value="">Filtro por ano</option>
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </Select>
-          </FilterContainer>
           {events?.results.length === 0 && (
             <EmptyMessage>Nenhum evento encontrado</EmptyMessage>
           )}

@@ -36,7 +36,7 @@ const Home = () => {
   );
 
   const pages = useMemo(() => {
-    return Math.ceil((events?.count ?? 0) / 10);
+    return Math.ceil((events?.count ?? 0) / 20);
   }, [events]);
 
   const years = useMemo(() => {
@@ -116,7 +116,7 @@ const Home = () => {
           ))}
           {pages > 1 && (
             <ButtonsPage
-              pages={10}
+              pages={pages}
               changePage={(newPage) =>
                 setQueryParams({ ...queryParams, page: newPage })
               }

@@ -10,7 +10,12 @@ const useEvents = () => {
       const response = await request<IPaginated<Event>>({
         method: 'get',
         url: endpoints.events.list,
-        params,
+        params: {
+          page: params.page,
+          search: params.search,
+          distance: params.distance,
+          date__year: params.year,
+        },
       });
 
       return response.data;

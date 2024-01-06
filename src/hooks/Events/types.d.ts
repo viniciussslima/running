@@ -23,3 +23,7 @@ interface EventsQuery {
   distance?: number;
   year?: number;
 }
+
+interface DistancesResponse {
+  distances: Array<number>;
+}

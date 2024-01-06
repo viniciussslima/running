@@ -51,10 +51,20 @@ const useEvents = () => {
     [request]
   );
 
+  const listDistances = useCallback(async () => {
+    const response = await request<DistancesResponse>({
+      method: 'get',
+      url: endpoints.events.distances,
+    });
+
+    return response.data;
+  }, [request]);
+
   return {
     listPaginatedEvents,
     listEvents,
     getEvent,
+    listDistances,
   };
 };
 

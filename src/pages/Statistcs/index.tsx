@@ -21,13 +21,13 @@ import { useTheme } from 'styled-components';
 import { useToast } from '@contexts/Toast';
 import { useEvents } from '@hooks';
 
+import DistanceSelect from '@components/DistanceSelect';
 import Loading from '@components/Loading';
-import { Select } from '@components/Select';
 
 import { Container, TooltipContent, TooltipTitle } from './styles';
 
 const Statics = () => {
-  const [distance, setDistance] = useState(5);
+  const [distance, setDistance] = useState<number>();
 
   const { listEvents } = useEvents();
   const { addToast } = useToast();
@@ -41,7 +41,7 @@ const Statics = () => {
         distance,
       },
     ],
-    () => listEvents(distance),
+    () => listEvents(distance!),
     {
       select: (data) => {
         return data.map((event) => {
@@ -53,17 +53,16 @@ const Statics = () => {
       onError: () => {
         addToast('Não foi possível carregar os dados do gráfico', 'error');
       },
+      enabled: !!distance,
     }
   );
 
   return (
     <>
       <Container>
-        <Select onChange={(event) => setDistance(Number(event.target.value))}>
-          <option value="5">5 km</option>
-          <option value="10">10 km</option>
-          <option value="21">21 km</option>
-        </Select>
+        <DistanceSelect
+          onChange={(event) => setDistance(Number(event.target.value))}
+        />
         {isLoading ? (
           <Loading />
         ) : (

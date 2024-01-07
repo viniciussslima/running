@@ -9,6 +9,7 @@ import { useDebounce, useEvents } from '@hooks';
 
 import { ButtonsPage } from '@components/ButtonsPage';
 import Container from '@components/Container';
+import DistanceSelect from '@components/DistanceSelect';
 import EmptyMessage from '@components/EmptyMessage';
 import EventCard from '@components/EventCard';
 import Loading from '@components/Loading';
@@ -64,7 +65,7 @@ const Home = () => {
           placeholder="Pesquise por nome do evento"
           onChange={(event) => debouncedSearch(event.target.value)}
         />
-        <Select
+        <DistanceSelect
           onChange={(event) =>
             setQueryParams({
               ...queryParams,
@@ -74,12 +75,7 @@ const Home = () => {
               page: 1,
             })
           }
-        >
-          <option value="">Filtro por distância</option>
-          <option value="5">5 km</option>
-          <option value="10">10 km</option>
-          <option value="21">21 km</option>
-        </Select>
+        />
         <Select
           onChange={(event) =>
             setQueryParams({
